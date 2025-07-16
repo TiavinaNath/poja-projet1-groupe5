@@ -23,6 +23,8 @@ jobs:
   initiate-deployment:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    environment:
+      name: ${{ github.ref_name }}
     permissions:
       contents: write
 
@@ -83,6 +85,9 @@ jobs:
           echo "upload_build_file_uri=$(echo $response | jq -r '.uri')" >> $GITHUB_ENV
           echo "to_upload_filename=$(echo $response | jq -r '.filename')" >> $GITHUB_ENV
           curl --fail -X GET -o template.yml "$(echo $response | jq -r '.build_template_file_uri')"
+
+      - name: Inject SECRET_KEY from environment secret
+        run: echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
 
       - name: Build project
         run: sam build
@@ -146,7 +151,7 @@ jobs:
                 tag_message: ($tag_message | if . == "null" then null else . end)
               }')")
           echo $response
-      
+
       - name: Tag commit if deployment with custom conf succeeded
         if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.env_conf_id != '' ) && env.TAG_NAME != 'null' && env.TAG_MESSAGE != 'null' }}
         env:
@@ -158,7 +163,7 @@ jobs:
           git config user.email "bot@poja.io"
           git tag -a "$TAG_NAME" -m "$TAG_MESSAGE"
           git push origin "$TAG_NAME"
-          
+
       - name: Update github state if step fails
         if: failure()
         run: |
@@ -195,4 +200,4 @@ jobs:
                     status: $status,
                     environment_type: $environment_type
                 }')")
-          echo $response 
+          echo $response
