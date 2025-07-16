@@ -1,6 +1,5 @@
 package com.hei.school.endpoint.rest.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,8 +8,8 @@ public class EnvController {
 
   private final String secretKey;
 
-  public EnvController(@Value("${SECRET_KEY}") String secretKey) {
-    this.secretKey = secretKey;
+  public EnvController() {
+    this.secretKey = System.getenv("SECRET_KEY");
   }
 
   @GetMapping("/env/secret-key")
