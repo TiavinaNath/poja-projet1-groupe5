@@ -83,17 +83,6 @@ jobs:
           echo "upload_build_file_uri=$(echo $response | jq -r '.uri')" >> $GITHUB_ENV
           echo "to_upload_filename=$(echo $response | jq -r '.filename')" >> $GITHUB_ENV
           curl --fail -X GET -o template.yml "$(echo $response | jq -r '.build_template_file_uri')"
-          
-      - name: Inject correct SECRET_KEY by env
-        run: |
-          if [ "${{ github.ref_name }}" = "preprod" ]; then
-            echo "SECRET_KEY=${{ vars.SECRET_KEY }}" >> $GITHUB_ENV
-          elif [ "${{ github.ref_name }}" = "prod" ]; then
-            echo "SECRET_KEY=${{ vars.SECRET_KEY }}" >> $GITHUB_ENV
-          else
-            echo "Unknown environment: ${{ github.ref_name }}"
-            exit 1
-          fi
 
       - name: Build project
         run: sam build
