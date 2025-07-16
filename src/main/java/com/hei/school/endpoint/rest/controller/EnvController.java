@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EnvController {
 
-    private final String secretKey;
+  private final String secretKey;
 
-    public EnvController(@Value("${SECRET_KEY}") String secretKey) {
-        this.secretKey = secretKey;
-    }
+  public EnvController(@Value("${SECRET_KEY}") String secretKey) {
+    this.secretKey = secretKey;
+  }
 
-    @GetMapping("/env/secret-key")
-    public String getSecretKey() {
-        return secretKey;
-    }
+  @GetMapping("/env/secret-key")
+  public String getSecretKey() {
+    return secretKey;
+  }
 }
