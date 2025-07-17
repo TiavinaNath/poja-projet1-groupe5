@@ -12,7 +12,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "SECRET_KEY=${secret.key}")
-class EnvControllerTest extends FacadeIT {
+class EnvControllerNewTest extends FacadeIT {
 
   @LocalServerPort private int port;
 

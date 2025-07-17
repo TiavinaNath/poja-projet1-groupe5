@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class EnvController {
+public class EnvControllerNew {
   private final String secretKey;
 
-  public EnvController(@Value("${secret.key}") String secretKey) {
+  public EnvControllerNew(@Value("${secret.key}") String secretKey) {
     this.secretKey = secretKey;
   }
 
