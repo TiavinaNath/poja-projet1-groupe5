@@ -28,12 +28,6 @@ jobs:
 
     env:
       AWS_REGION: eu-west-3
-      SECRET_KEY: ${{
-                (github.event_name == 'pull_request' && github.base_ref == 'prod') && secrets.PROD_SECRET_KEY ||
-                (github.event_name == 'pull_request' && github.base_ref == 'preprod') && secrets.PREPROD_SECRET_KEY ||
-                (github.ref == 'refs/heads/prod') && secrets.PROD_SECRET_KEY ||
-                (github.ref == 'refs/heads/preprod') && secrets.PREPROD_SECRET_KEY
-                }}
 
     steps:
       - uses: actions/checkout@v4.1.6
